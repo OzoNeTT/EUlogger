@@ -6,7 +6,7 @@ from python_rucaptcha import ReCaptchaV2
 
 RUCAPTCHA_KEY = "a72b9e772c84e07f91d4858ab8e4892a"
 SITE_KEY = "6Ldyzg4UAAAAACoMkMqxUJbsHuGBjir1Ds3_bFJx"
-PAGE_URL = "https://students.bmstu.ru/"
+PAGE_URL = "https://students.bmstu.ru"
 
 class Method:
     login = None
@@ -35,6 +35,8 @@ class Method:
             print(user_answer['errorBody']['text'])
             print(user_answer['errorBody']['id'])
 
+        self.driver.find_element(By.ID, '#g-recaptcha-response').send_keys(user_answer['captchaSolve'])
+
 
 def main():
 
@@ -42,6 +44,8 @@ def main():
     method.open_browser()
     method.send_data()
     method.reC_bypass()
+
+
     method.button_accept()
 
 
