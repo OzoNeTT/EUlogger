@@ -70,7 +70,8 @@ class Method:
         ids = self.driver.find_elements_by_xpath('//*[@href]')
 
         for ii in ids:
-            print(ii.get_attribute('href'))
+            if "ftp" in ii.get_attribute('href'):
+                print(ii.get_attribute('href'))
 
         #TODO Куда-то все скачать
 
