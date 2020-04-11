@@ -32,3 +32,5 @@ RUN pip install -r /tmp/requirements.txt
 WORKDIR /opt/builder
 
 COPY . /opt/builder
+
+CMD python logger.py $login $password
