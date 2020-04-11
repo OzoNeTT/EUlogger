@@ -8,11 +8,18 @@ assert conf.RUCAPTCHA_KEY
 assert conf.SITE_KEY
 assert conf.PAGE_URL
 
+
 class Method:
     login = None
     password = None
     driver = None
+
     def __init__(self):
+        options = webdriver.ChromeOptions()
+        options.add_argument("--no-sandbox")
+        options.add_argument("--disable-dev-shm-usage")
+        options.add_argument("--headless")
+
         self.driver = webdriver.Chrome()
 
     def open_browser(self):
@@ -27,7 +34,7 @@ class Method:
 
     def reC_bypass(self):
         user_answer = ReCaptchaV2.ReCaptchaV2(rucaptcha_key=conf.RUCAPTCHA_KEY).captcha_handler(site_key=conf.SITE_KEY,
-                                                                                           page_url=conf.PAGE_URL)
+                                                                                                page_url=conf.PAGE_URL)
         if not user_answer['error']:
             print(user_answer['captchaSolve'])
             print(user_answer['taskId'])
@@ -40,7 +47,6 @@ class Method:
 
 
 def main():
-
     method = Method()
     method.open_browser()
     method.send_data()
