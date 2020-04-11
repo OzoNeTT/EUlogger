@@ -6,8 +6,11 @@ ENV PACKAGES="gcc \
               build-essential \
               python3-dev"
 
+RUN	apt-get update && apt-get install -y gnupg2
 
-RUN apt-get update -y &&\
+RUN set -ex && \
+    mkdir /usr/share/man/man1/ &&\
+    apt-get update -y &&\
     apt-get install -y curl unzip xvfb libxi6 libgconf-2-4 &&\
     apt-get install -y default-jdk &&\
     curl -sS -o - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - &&\
