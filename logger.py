@@ -24,6 +24,15 @@ class Method:
 
         self.driver = webdriver.Chrome(options=options)
 
+    def wait(self, selector=config.DEFAULT_SELECTOR):
+        delay = 3  # seconds
+        try:
+            WebDriverWait(self.driver, delay).until(EC.presence_of_element_located((By.CSS_SELECTOR, selector)))
+            print("Page is ready!")
+
+        except TimeoutException:
+            print("Loading took too much time!")
+
     def open_browser(self):
         self.driver.get(config.PAGE_URL)
 
@@ -33,15 +42,7 @@ class Method:
 
     def button_accept(self):
         self.driver.find_element_by_class_name("btn").click()
-
-        delay = 3  # seconds
-        try:
-            selector = '#bs-example-navbar-collapse-1 > ul:nth-child(1) > li > a.dropdown-toggle'
-            WebDriverWait(self.driver, delay).until(EC.presence_of_element_located((By.CSS_SELECTOR, selector)))
-
-            print("Page is ready!")
-        except TimeoutException:
-            print("Loading took too much time!")
+        self.wait()
 
     def reC_bypass(self):
         user_answer = ReCaptchaV2.ReCaptchaV2(rucaptcha_key=config.RUCAPTCHA_KEY).captcha_handler(site_key=config.SITE_KEY,
@@ -56,9 +57,19 @@ class Method:
         name = 'captchaSolve'
         self.driver.execute_script(f'document.getElementById("g-recaptcha-response").innerHTML="{user_answer[name]}";')
 
-    def snetch(self):
-        pass
+    def open_snatch(self):
+        self.driver.get(config.SNATCH_URL)
+        self.wait()
 
+    def snatching(self):
+
+        #в bs-component ищем все list-group-item-heading mt-2 и берем из каждой 2ую list-group-item-heading mt-2
+        ids = self.driver.find_elements_by_xpath('//*[@href]')
+
+        for ii in ids:
+            print(ii.get_attribute('href'))
+
+        #TODO Куда-то все скачать
 
 def main():
     method = Method()
@@ -66,7 +77,9 @@ def main():
     method.send_data()
     method.reC_bypass()
     method.button_accept()
-
+    method.open_snatch()
+    method.snatching()
+    print("Done")
 
 if __name__ == "__main__":
     if len(sys.argv) > 1:
