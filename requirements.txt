@@ -1,4 +1,3 @@
 pip
 selenium
-sys
 python_rucaptcha

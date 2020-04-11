@@ -6,12 +6,16 @@ ENV PACKAGES="gcc \
               build-essential \
               python3-dev"
 
+
+
 RUN set -ex && \
     apt-get update -y && \
     apt-get install -y $PACKAGES && \
-    pip install -r requirements.txt  && \
+    apt-get install -y chromium \
+		       chromedriver &&\
+    pip install -r /tmp/requirements.txt  && \
     cd /tmp/ && \
-    apt-get remove -y $PACKAGES
+    apt-get remove -y $PACKAGES 
 
 WORKDIR /opt/builder
 
