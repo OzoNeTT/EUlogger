@@ -1,24 +1,5 @@
 from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.common.proxy import Proxy, ProxyType
-from selenium.common.exceptions import NoSuchElementException
-
-# Setup settings
-def setUp(self):
-   self.setUpProfile()
-   self.setUpOptions()
-   self.setUpCapabilities()
-   self.setUpProxy()
-   self.driver = webdriver.Firefox(options=self.options, capabilities=self.capabilities, firefox_profile=self.profile)
-
-def setUpOptions(self):
-   self.options = webdriver.FirefoxOptions()
-   self.options.headless = self.headless
-
 
 def main():
 
