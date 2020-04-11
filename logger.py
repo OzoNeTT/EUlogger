@@ -8,12 +8,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 
-import local as conf
-
-assert conf.RUCAPTCHA_KEY
-assert conf.SITE_KEY
-assert conf.PAGE_URL
-
+from config import config
 
 class Method:
     login = None
@@ -22,7 +17,7 @@ class Method:
 
     def __init__(self):
         options = webdriver.ChromeOptions()
-        if not conf.DEBUG:
+        if not config.DEBUG:
             options.add_argument("--no-sandbox")
             options.add_argument("--disable-dev-shm-usage")
             options.add_argument("--headless")
@@ -30,7 +25,7 @@ class Method:
         self.driver = webdriver.Chrome(options=options)
 
     def open_browser(self):
-        self.driver.get(conf.PAGE_URL)
+        self.driver.get(config.PAGE_URL)
 
     def send_data(self):
         self.driver.find_element(By.NAME, 'username').send_keys(self.login)
@@ -49,8 +44,8 @@ class Method:
             print("Loading took too much time!")
 
     def reC_bypass(self):
-        user_answer = ReCaptchaV2.ReCaptchaV2(rucaptcha_key=conf.RUCAPTCHA_KEY).captcha_handler(site_key=conf.SITE_KEY,
-                                                                                                page_url=conf.PAGE_URL)
+        user_answer = ReCaptchaV2.ReCaptchaV2(rucaptcha_key=config.RUCAPTCHA_KEY).captcha_handler(site_key=config.SITE_KEY,
+                                                                                                page_url=config.PAGE_URL)
         if not user_answer['error']:
             print(user_answer['captchaSolve'])
             print(user_answer['taskId'])
@@ -60,6 +55,9 @@ class Method:
 
         name = 'captchaSolve'
         self.driver.execute_script(f'document.getElementById("g-recaptcha-response").innerHTML="{user_answer[name]}";')
+
+    def snetch(self):
+        pass
 
 
 def main():
