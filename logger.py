@@ -38,9 +38,11 @@ class Method:
 
 def main():
 
-    Method.__init__()
-    Method.open_browser()
-
+    method = Method()
+    method.open_browser()
+    method.send_data()
+    method.reC_bypass()
+    method.button_accept()
 
 
 if __name__ == "__main__":
