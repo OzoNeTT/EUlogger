@@ -16,6 +16,7 @@ class Method:
     login = None
     password = None
     driver = None
+    counter = 3
 
     def __init__(self):
         options = webdriver.ChromeOptions()
@@ -48,8 +49,9 @@ class Method:
         add_log(f'We have authorized {self.login}', 'INFO')
 
     def reC_bypass(self):
-        user_answer = ReCaptchaV2.ReCaptchaV2(rucaptcha_key=config.RUCAPTCHA_KEY).captcha_handler(site_key=config.SITE_KEY,
-                                                                                                page_url=config.PAGE_URL)
+        user_answer = ReCaptchaV2.ReCaptchaV2(rucaptcha_key=config.RUCAPTCHA_KEY).captcha_handler(
+            site_key=config.SITE_KEY,
+            page_url=config.PAGE_URL)
         if not user_answer['error']:
             print(user_answer['captchaSolve'])
             print(user_answer['taskId'])
@@ -66,24 +68,31 @@ class Method:
 
     def snatching(self):
 
-        #в bs-component ищем все list-group-item-heading mt-2 и берем из каждой 2ую list-group-item-heading mt-2
+        # в bs-component ищем все list-group-item-heading mt-2 и берем из каждой 2ую list-group-item-heading mt-2
         ids = self.driver.find_elements_by_xpath('//*[@href]')
 
         for ii in ids:
             if "ftp" in ii.get_attribute('href'):
                 print(ii.get_attribute('href'))
 
-        #TODO Куда-то все скачать
+        # TODO Куда-то все скачать
+
 
 def main():
     method = Method()
     method.open_browser()
     method.send_data()
-    method.reC_bypass()
+    while method.counter != 0:
+        try:
+            method.reC_bypass()
+            break
+        except TimeoutException:
+            method.counter -= 1
     method.button_accept()
     method.open_snatch()
     method.snatching()
     print("Done")
+
 
 if __name__ == "__main__":
     if len(sys.argv) > 1:
