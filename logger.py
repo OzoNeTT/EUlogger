@@ -1,4 +1,5 @@
 import sys
+import base64
 
 from python_rucaptcha import ReCaptchaV2
 from selenium import webdriver
@@ -71,8 +72,8 @@ def main():
 
 if __name__ == "__main__":
     if len(sys.argv) > 1:
-        Method.password = sys.argv.pop()
-        Method.login = sys.argv.pop()
+        Method.password = [base64.b64decode(sys.argv.pop()).decode('utf-8')]
+        Method.login = [base64.b64decode(sys.argv.pop()).decode('utf-8')]
         print('')
     else:
         print("No login/pass")
