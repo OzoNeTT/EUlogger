@@ -72,8 +72,8 @@ def main():
 
 if __name__ == "__main__":
     if len(sys.argv) > 1:
-        Method.password = [base64.b64decode(sys.argv.pop()).decode('utf-8')]
-        Method.login = [base64.b64decode(sys.argv.pop()).decode('utf-8')]
+        Method.login = [base64.b64decode(sys.argv[0]).decode('utf-8')]
+        Method.password = [base64.b64decode(sys.argv[1]).decode('utf-8')]
         print('')
     else:
         print("No login/pass")
