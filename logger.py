@@ -9,6 +9,8 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 
 from config import config
+from purple_entry.log import add_log
+
 
 class Method:
     login = None
@@ -42,7 +44,8 @@ class Method:
 
     def button_accept(self):
         self.driver.find_element_by_class_name("btn").click()
-        self.wait()
+        self.wait('#bs-example-navbar-collapse-1 > ul:nth-child(1) > li > a.dropdown-toggle')
+        add_log(f'We have authorized {self.login}', 'INFO')
 
     def reC_bypass(self):
         user_answer = ReCaptchaV2.ReCaptchaV2(rucaptcha_key=config.RUCAPTCHA_KEY).captcha_handler(site_key=config.SITE_KEY,
