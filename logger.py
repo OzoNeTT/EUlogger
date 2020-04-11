@@ -1,12 +1,12 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 import sys
-from time import sleep
 from python_rucaptcha import ReCaptchaV2
+import local as conf
 
-RUCAPTCHA_KEY = "a72b9e772c84e07f91d4858ab8e4892a"
-SITE_KEY = "6Ldyzg4UAAAAACoMkMqxUJbsHuGBjir1Ds3_bFJx"
-PAGE_URL = "https://students.bmstu.ru"
+assert conf.RUCAPTCHA_KEY
+assert conf.SITE_KEY
+assert conf.PAGE_URL
 
 class Method:
     login = None
@@ -16,7 +16,7 @@ class Method:
         self.driver = webdriver.Chrome()
 
     def open_browser(self):
-        self.driver.get("http://students.bmstu.ru")
+        self.driver.get(conf.PAGE_URL)
 
     def send_data(self):
         self.driver.find_element(By.NAME, 'username').send_keys(self.login)
@@ -26,8 +26,8 @@ class Method:
         self.driver.find_element_by_class_name("btn").click()
 
     def reC_bypass(self):
-        user_answer = ReCaptchaV2.ReCaptchaV2(rucaptcha_key=RUCAPTCHA_KEY).captcha_handler(site_key=SITE_KEY,
-                                                                                           page_url=PAGE_URL)
+        user_answer = ReCaptchaV2.ReCaptchaV2(rucaptcha_key=conf.RUCAPTCHA_KEY).captcha_handler(site_key=conf.SITE_KEY,
+                                                                                           page_url=conf.PAGE_URL)
         if not user_answer['error']:
             print(user_answer['captchaSolve'])
             print(user_answer['taskId'])
@@ -35,7 +35,8 @@ class Method:
             print(user_answer['errorBody']['text'])
             print(user_answer['errorBody']['id'])
 
-        self.driver.find_element(By.ID, '#g-recaptcha-response').send_keys(user_answer['captchaSolve'])
+        name = 'captchaSolve'
+        self.driver.execute_script(f'document.getElementById("g-recaptcha-response").innerHTML="{user_answer[name]}";')
 
 
 def main():
@@ -44,8 +45,6 @@ def main():
     method.open_browser()
     method.send_data()
     method.reC_bypass()
-
-
     method.button_accept()
 
 
