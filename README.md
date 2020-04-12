@@ -1,5 +1,5 @@
 # AutoAuth
-Auto login on **students.bmstu.ru** with reCAPTCHA bypass and grabbing all files from **students.bmstu.ru/techer**
+Auto login on **students.bmstu.ru** with reCAPTCHA bypass and grabbing all files from **students.bmstu.ru/teacher**
 
 Actually, the URL can be changed, but it was created for the site above.
 
@@ -16,7 +16,7 @@ Create `./config/local.py` file and write the following into it
 RUCAPTCHA_KEY = "API key from rucaptha.ru"
 SITE_KEY = "site_key"
 PAGE_URL = "URL"
-DEBUG = False
+DEBUG = False # Will not show browser, replace with True if you want to see the process
 ```
 
 ## Editing for personal use
@@ -42,7 +42,7 @@ $ ./deploy.sh ${LOGIN} ${PASSWORD}
 
 ## Developers
 
-OzoNeTT: [VK](https://vk.com/ozonet_t), [GIT](https://github.com/OzoNeTT)
+OzoNeTT: [VK](https://vk.com/ozonet_t), [GitHub](https://github.com/OzoNeTT)
 
-Toliak Purple: [VK](https://vk.com/toliakpurple), [GIT](https://github.com/Toliak)
+Toliak Purple: [VK](https://vk.com/toliakpurple), [GitHub](https://github.com/Toliak)
 
