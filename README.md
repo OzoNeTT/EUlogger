@@ -21,7 +21,7 @@ DEBUG = False # Will not show browser, replace with True if you want to see the 
 
 ## Editing for personal use
 
-Open `logger.py` and delete those lines:
+Open `logger.py` and delete the lines below
 
 ```Python
 ...
