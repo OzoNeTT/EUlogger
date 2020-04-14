@@ -25,9 +25,17 @@ Open `logger.py` and delete the lines below
 
 ```Python
 ...
-from purple_entry.log import add_log
-...
+add_log(f'Page is ready!', 'INFO')
+add_log(f'Loading took too much time!', 'INFO')
+add_log(f'Browser opened', 'INFO')
+add_log(f'U/P entered', 'INFO')
+add_log(f'Button pressed', 'INFO')
 add_log(f'We have authorized {self.login}', 'INFO')
+add_log(f'Captcha SOLVED', 'INFO')
+add_log(f'Captcha NOT SOLVED', 'INFO')
+add_log(f'CaptchaKey: {user_answer[name]}', 'INFO')
+add_log(f'TaskId: {user_answer[task_id]}', 'INFO')
+add_log(f'No login/pass', 'INFO')
 ...
 ```
  

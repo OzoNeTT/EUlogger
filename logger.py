@@ -11,7 +11,6 @@ from selenium.webdriver.support.wait import WebDriverWait
 from config import config
 from purple_entry.log import add_log
 
-
 class Method:
     login = None
     password = None
@@ -31,20 +30,23 @@ class Method:
         delay = 3  # seconds
         try:
             WebDriverWait(self.driver, delay).until(EC.presence_of_element_located((By.CSS_SELECTOR, selector)))
-            print("Page is ready!")
+            add_log(f'Page is ready!', 'INFO')
 
         except TimeoutException:
-            print("Loading took too much time!")
+            add_log(f'Loading took too much time!', 'INFO')
 
     def open_browser(self):
         self.driver.get(config.PAGE_URL)
+        add_log(f'Browser opened', 'INFO')
 
     def send_data(self):
         self.driver.find_element(By.NAME, 'username').send_keys(self.login)
         self.driver.find_element(By.NAME, 'password').send_keys(self.password)
+        add_log(f'U/P entered', 'INFO')
 
     def button_accept(self):
         self.driver.find_element_by_class_name("btn").click()
+        add_log(f'Button pressed', 'INFO')
         self.wait('#bs-example-navbar-collapse-1 > ul:nth-child(1) > li > a.dropdown-toggle')
         add_log(f'We have authorized {self.login}', 'INFO')
 
@@ -55,11 +57,16 @@ class Method:
         if not user_answer['error']:
             print(user_answer['captchaSolve'])
             print(user_answer['taskId'])
+            add_log(f'Captcha SOLVED', 'INFO')
         elif user_answer['error']:
+            add_log(f'Captcha NOT SOLVED', 'INFO')
             print(user_answer['errorBody']['text'])
             print(user_answer['errorBody']['id'])
 
         name = 'captchaSolve'
+        task_id = 'taskId'
+        add_log(f'CaptchaKey: {user_answer[name]}', 'INFO')
+        add_log(f'TaskId: {user_answer[task_id]}', 'INFO')
         self.driver.execute_script(f'document.getElementById("g-recaptcha-response").innerHTML="{user_answer[name]}";')
 
     def open_snatch(self):
@@ -74,7 +81,7 @@ class Method:
         for ii in ids:
             if "ftp" in ii.get_attribute('href'):
                 print(ii.get_attribute('href'))
-
+        add_log(f'Hrefs printed', 'INFO')
         # TODO Куда-то все скачать
 
 
@@ -99,7 +106,9 @@ if __name__ == "__main__":
         Method.login = [base64.b64decode(sys.argv[1]).decode('utf-8')]
         Method.password = [base64.b64decode(sys.argv[2]).decode('utf-8')]
         print('')
+
     else:
         print("No login/pass")
+        add_log(f'No login/pass', 'INFO')
         exit(0)
     main()
